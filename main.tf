@@ -40,7 +40,7 @@ resource "aws_s3_bucket" "artifact_store" {
 }
 
 module "iam_codepipeline" {
-  source = "github.com/rpstreef/tf-iam?ref=v1.2"
+  source = "github.com/anilgs/tf-iam?ref=v1.2"
 
   environment       = var.environment
   region            = var.region
@@ -60,7 +60,7 @@ module "iam_codepipeline" {
 }
 
 module "iam_cloudformation" {
-  source = "github.com/rpstreef/tf-iam?ref=v1.2"
+  source = "github.com/anilgs/tf-iam?ref=v1.2"
 
   environment       = var.environment
   region            = var.region
@@ -96,17 +96,15 @@ resource "aws_codepipeline" "_" {
     action {
       name             = "Source"
       category         = "Source"
-      owner            = "ThirdParty"
-      provider         = "GitHub"
+      owner            = "AWS"
+      provider         = "CodeCommit"
       version          = "1"
       output_artifacts = ["source"]
 
       configuration = {
-        OAuthToken           = var.github_token
-        Owner                = var.github_owner
-        Repo                 = var.github_repo
-        Branch               = var.github_branch
         PollForSourceChanges = var.poll_source_changes
+        RepositoryName       = var.repo_name
+        BranchName           = var.repo_default_branch
       }
     }
   }
@@ -184,7 +182,7 @@ resource "aws_codepipeline" "_" {
 # Resources: CodeBuild
 # -----------------------------------------------------------------------------
 module "iam_codebuild" {
-  source = "github.com/rpstreef/tf-iam?ref=v1.2"
+  source = "github.com/anilgs/tf-iam?ref=v1.2"
 
   environment       = var.environment
   region            = var.region

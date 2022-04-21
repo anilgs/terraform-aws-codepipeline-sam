@@ -76,24 +76,15 @@ variable "stack_name" {
   description = "AWS SAM stack name"
 }
 
-variable "github_token" {
+
+variable "repo_name" {
   type        = string
-  description = "Github OAuth token"
+  description = "Codecommit repository name"
 }
 
-variable "github_owner" {
+variable "repo_default_branch" {
   type        = string
-  description = "Github username"
-}
-
-variable "github_repo" {
-  type        = string
-  description = "Github repository name"
-}
-
-variable "github_branch" {
-  type        = string
-  description = "Github branch name"
+  description = "Codecommit branch name"
   default     = "master"
 }
 
